@@ -14,7 +14,7 @@
                         <span class="card-title">{{ __('Create') }} Order</span>
                     </div>
                     <div class="card-body bg-white">
-                        <form method="POST" action="{{ route('orders.store') }}"  role="form" enctype="multipart/form-data">
+                        <form method="POST" action="{{ route('store-order-nl') }}"  role="form" enctype="multipart/form-data">
                             @csrf
 
                             @include('order.form')

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
  * Class Order
  *
  * @property $id
+ * @property $state
  * @property $user_id
  * @property $created_at
  * @property $updated_at
@@ -27,7 +28,7 @@ class Order extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = ['user_id'];
+    protected $fillable = ['state', 'user_id'];
 
 
     /**
@@ -39,11 +40,11 @@ class Order extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function dishOrders()
     {
-        return $this->hasMany(\App\Models\Dish::class, 'id', 'order_id');
+        return $this->belongsToMany(Dish::class);
     }
 
 }

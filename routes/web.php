@@ -28,9 +28,11 @@ Route::get('/menu', function () {
 
 Route::get('/menu', [CategoryController::class, 'list'])->name('menu');
 Route::get('/menu/crear-orden', [OrderController::class, 'create_nl'])->name('create-order-nl');
+Route::post('/menu/crear-orden', [OrderController::class, 'store_nl'])->name('store-order-nl');
 
 Route::resource('/dashboard/categories', CategoryController::class)->middleware('auth');
 Route::resource('/dashboard/orders', OrderController::class)->middleware('auth');
+Route::put('/dashboard/orders', [OrderController::class, 'updateState'])->name('orders.update.state')->middleware('auth');
 Route::resource('/dashboard/tables', TableController::class)->middleware('auth');
 Route::resource('/dashboard/dishes', DishController::class)->middleware('auth');
 

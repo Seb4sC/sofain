@@ -35,7 +35,8 @@
                                 <thead class="thead">
                                     <tr>
                                         <th>No</th>
-                                        
+
+									<th >State</th>
 									<th >User Id</th>
 
                                         <th></th>
@@ -45,7 +46,8 @@
                                     @foreach ($orders as $order)
                                         <tr>
                                             <td>{{ ++$i }}</td>
-                                            
+
+										<td >{{ $order->state }}</td>
 										<td >{{ $order->user_id }}</td>
 
                                             <td>
@@ -55,6 +57,12 @@
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger btn-sm" onclick="event.preventDefault(); confirm('Are you sure to delete?') ? this.closest('form').submit() : false;"><i class="fa fa-fw fa-trash"></i> {{ __('Delete') }}</button>
+                                                </form>
+                                                <form action="{{ route('orders.update.state') }}" method="POST">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <input type="hidden" name="state" value="1">
+                                                    <button type="submit" class="btn btn-warning btn-sm" onclick="event.preventDefault(); confirm('Are you sure to complete?') ? this.closest('form').submit() : false;"><i class="fa fa-fw fa-trash"></i> {{ __('Completar') }}</button>
                                                 </form>
                                             </td>
                                         </tr>

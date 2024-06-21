@@ -42,11 +42,11 @@ class Dish extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function dishOrders()
     {
-        return $this->hasMany(\App\Models\Order::class, 'id', 'dish_id');
+        return $this->belongsToMany(\App\Models\Order::class);
     }
 
 }

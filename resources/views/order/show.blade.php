@@ -21,6 +21,10 @@
                     <div class="card-body bg-white">
                         
                                 <div class="form-group mb-2 mb20">
+                                    <strong>State:</strong>
+                                    {{ $order->state }}
+                                </div>
+                                <div class="form-group mb-2 mb20">
                                     <strong>User Id:</strong>
                                     {{ $order->user_id }}
                                 </div>

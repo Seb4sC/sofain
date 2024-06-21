@@ -6,6 +6,8 @@ use App\Models\Order;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Requests\OrderRequest;
+use App\Models\Dish;
+use App\Models\Table;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
@@ -28,19 +30,34 @@ class OrderController extends Controller
     public function create(): View
     {
         $order = new Order();
+        $dishes = Dish::all();
+        $tables = Table::all();
 
-        return view('order.create', compact('order'));
+        return view('order.create', compact('order', 'dishes', 'tables'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(OrderRequest $request): RedirectResponse
+    public function store(Request $request)
     {
-        Order::create($request->validated());
+        //return $request;
+        $order = new Order();
+        $order->user_id = $request->user_id;
+        $order->table_id = $request->table;
+        $order->save();
+        foreach ($request->dishes as $dish) {
+            $order->dishOrders()->attach($dish);
+        }
+
 
         return Redirect::route('orders.index')
             ->with('success', 'Order created successfully.');
+        //OrderRequest $request
+        // Order::create($request->validated());
+
+        // return Redirect::route('orders.index')
+        //     ->with('success', 'Order created successfully.');
     }
 
     /**
@@ -74,6 +91,13 @@ class OrderController extends Controller
             ->with('success', 'Order updated successfully');
     }
 
+    public function updateState(Request $request){
+        $order = Order::find($request->state);
+        $order->state = 1;
+        $order->save();
+        return redirect()->to('dashboard/orders');
+    }
+
     public function destroy($id): RedirectResponse
     {
         Order::find($id)->delete();
@@ -83,8 +107,22 @@ class OrderController extends Controller
     }
 
     public function create_nl(){
+        $dishes = Dish::all();
+        $tables = Table::all();
         $order = new Order();
 
-        return view('order.create', compact('order'));
+        return view('order.createnl', compact('order', 'dishes', 'tables'));
+    }
+
+    public function store_nl(Request $request)
+    {
+        $order = new Order();
+        $order->user_id = $request->user_id;
+        foreach ($request->dishes as $dish) {
+            $order->dishOrders()->attach($dish);
+        }
+
+        return Redirect::route('menu')
+            ->with('success', 'Order created successfully.');
     }
 }
